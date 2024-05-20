@@ -1,0 +1,208 @@
+<template>
+  <div class="container">
+    <Breadcrumb :items="['menu.{{className | lowerCaseFristOne}}Nav', 'menu.{{className | lowerCaseFristOne}}']" />
+
+    <ACard class="general-card" :title="$t('menu.{{className | lowerCaseFristOne}}')">
+        <form-create
+          v-model="value"
+          v-model:api="fApi"
+          :rule="rule"
+          :option="option"
+        ></form-create>
+
+         <vxe-table
+        show-overflow
+        :data="tableData"
+        :column-config="{ resizable: true }"
+        :edit-config="{ trigger: 'click', mode: 'row' }"
+        :seq-config="tableSeq"
+        :scroll-y="{ enabled: false }"
+      >
+        <vxe-column type="seq" width="60"></vxe-column>
+        <vxe-colgroup title="分组1">
+          <vxe-column field="name" title="Name" :edit-render="{}">
+            <template #edit="{ row }">
+              <vxe-input v-model="row.name" type="text"></vxe-input>
+            </template>
+          </vxe-column>
+          <vxe-column field="role" title="Role" :edit-render="{}">
+            <template #edit="{ row }">
+              <vxe-input v-model="row.role" type="text"></vxe-input>
+            </template>
+          </vxe-column>
+          <vxe-column field="sex" title="Sex" :edit-render="{}">
+            <template #default="{ row }">
+              <span>{{ "{{ formatSex(row.sex) }}" }}</span>
+            </template>
+            <template #edit="{ row }">
+              <vxe-select
+                v-model="row.sex"
+                type="text"
+                :options="sexList"
+                transfer
+              ></vxe-select>
+            </template>
+          </vxe-column>
+        </vxe-colgroup>
+        <vxe-colgroup title="分组2">
+          <vxe-column field="num1" title="Number" :edit-render="{}">
+            <template #edit="{ row }">
+              <vxe-input
+                v-model="row.num1"
+                type="number"
+                placeholder="请输入数值"
+              ></vxe-input>
+            </template>
+          </vxe-column>
+          <vxe-column field="date12" title="Date" :edit-render="{}">
+            <template #edit="{ row }">
+              <vxe-input
+                v-model="row.date12"
+                type="date"
+                placeholder="请选择日期"
+                transfer
+              ></vxe-input>
+            </template>
+          </vxe-column>
+          <vxe-column field="date13" title="Week" :edit-render="{}">
+            <template #edit="{ row }">
+              <vxe-input
+                v-model="row.date13"
+                type="week"
+                placeholder="请选择日期"
+                transfer
+              ></vxe-input>
+            </template>
+          </vxe-column>
+        </vxe-colgroup>
+        <vxe-column field="address" title="Address" :edit-render="{}">
+          <template #edit="{ row }">
+            <vxe-input v-model="row.address" type="text"></vxe-input>
+          </template>
+        </vxe-column>
+      </vxe-table>
+
+      <vxe-pager
+        v-model:current-page="tablePage.current"
+        v-model:page-size="tablePage.pageSize"
+        background
+        align="center"
+        :total="tablePage.total"
+        :layouts="[
+          'PrevJump',
+          'PrevPage',
+          'JumpNumber',
+          'NextPage',
+          'NextJump',
+          'Sizes',
+          'FullJump',
+          'Total',
+        ]"
+        @page-change="handlePageChange"
+      >
+      </vxe-pager>
+
+    </ACard>
+
+  </div>  
+</template>
+
+<script lang="ts" setup>
+import { VxePagerEvents, VxeTablePropTypes } from 'vxe-table';
+
+import rule from './schema.json';
+import { fApi, value, option } from './schema';
+
+import page{{className | lowerCaseFristOne}} from './api';
+
+
+const pageList = async () => {
+  console.log(tablePage.value);
+  const res = await page{{className | lowerCaseFristOne}}({
+    ...tablePage,
+  });
+
+  tableData.value = res.data.list;
+  tablePage.value.total = res.data.total;
+};
+
+const tableData = ref([
+  // {
+  //   id: 10001,
+  //   name: 'Test1',
+  //   nickname: 'T1',
+  //   role: 'Develop',
+  //   sex: '0',
+  //   sex2: ['0'],
+  //   num1: 40,
+  //   age: 28,
+  //   address: 'Shenzhen',
+  //   date12: '',
+  //   date13: '',
+  // },
+]);
+
+const tableSeq = ref({
+  seqMethod({ rowIndex }) {
+    return `No${
+      (tablePage.value.current - 1) * tablePage.value.pageSize + rowIndex + 1
+    }`;
+  },
+} as VxeTablePropTypes.SeqConfig);
+
+const sexList = ref([
+  { label: '', value: '' },
+  { label: '男', value: '1' },
+  { label: '女', value: '0' },
+]);
+
+const formatSex = (value: any) => {
+  if (value === '1') {
+    return '男';
+  }
+  if (value === '0') {
+    return '女';
+  }
+  return '';
+};
+
+const tablePage = ref({
+  current: 1,
+  pageSize: 10,
+  total: 0,
+});
+
+// const handleSearch = () => {
+//   tablePage.value.current = 1;
+//   pageList();
+// };
+
+const handlePageChange: VxePagerEvents.PageChange = ({
+  currentPage: current,
+  pageSize,
+}) => {
+  // console.log({ current, pageSize });
+
+  tablePage.value.current = current;
+  tablePage.value.pageSize = pageSize;
+
+  pageList();
+};
+
+onMounted(() => {
+  pageList();
+});
+</script>
+
+<script lang="ts">
+  export default {
+    name: '{{className}}',
+  };
+</script>
+
+<style scoped lang="less">
+  .container {
+    height: calc(100% - 40px);
+    padding: 0 20px 20px 20px;
+  }
+</style>

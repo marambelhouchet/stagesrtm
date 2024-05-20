@@ -1,0 +1,30 @@
+export const option = {
+  onSubmit: function (formData: any) {
+    alert(JSON.stringify(formData));
+  },
+
+  global: {
+    '*': {
+      // 'auto-label-width': true,
+      col: {
+        span: 8,
+      },
+      wrap: {
+        labelColProps: { span: 8 },
+        wrapperColProps: { span: 16 },
+      },
+      props: {
+        disabled: false,
+      },
+    },
+  },
+};
+
+export const fApi = {};
+export const value = {};
+
+export default {
+  fApi,
+  value,
+  option,
+};

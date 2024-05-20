@@ -1,0 +1,231 @@
+{
+    "$schema": "https://gskd.sdoprofile.com/schema/gyctools.config.schema.v1.json",
+    "projectName": "easycode-demo",
+    "projectPath": "easycode-demo",
+    "enabled": true,    
+    "openFileWhenComplete": false,
+    "templatePath":"",
+    "overrideExists":true,
+    "dataBaseList": [
+        {
+            "dataBaseName": "easycode_demo",
+            "tableNamePrefix": "TB_",
+            "logicDelColName": "is_deleted",
+            "moduleSplit": false,
+            "templateList": [
+                {
+                    "enabled": true,
+                    "templateName": "backend/entity.njk",
+                    "outFileType": ".java",
+                    "outPath": "/backend/src/main/java/com/example/demo/entity/"
+                },
+                {
+                    "enabled": true,
+                    "templateName": "backend/mapper.njk",
+                    "outFileType": "Mapper.java",
+                    "outPath": "/backend/src/main/java/com/example/demo/mapper/"
+                },
+                {
+                    "enabled": true,
+                    "templateName": "backend/mapper_md.njk",
+                    "outFileType": ".md",
+                    "outPath": "/backend/src/main/resources/mdsql/"
+                },
+                {
+                    "enabled": false,
+                    "templateName": "backend/mapper_xml.njk",
+                    "outFileType": ".xml",
+                    "outPath": "/backend/src/main/resources/mapper/"
+                },
+                {
+                    "enabled": true,
+                    "templateName": "backend/service.njk",
+                    "outFileType": "Service.java",
+                    "outPath": "/backend/src/main/java/com/example/demo/service/"
+                },
+                {
+                    "enabled": true,
+                    "templateName": "backend/service_impl.njk",
+                    "outFileType": "ServiceImpl.java",
+                    "outPath": "/backend/src/main/java/com/example/demo/service/impl/"
+                },
+                {
+                    "enabled": true,
+                    "templateName": "backend/controller.njk",
+                    "outFileType": "Controller.java",
+                    "outPath": "/backend/src/main/java/com/example/demo/controller/"
+                },
+                {
+                    "enabled": true,
+                    "moduleSplit": true,
+                    "templateName": "frontend/vue_page.njk",
+                    "needPrefix": false,
+                    "outFileType": "index.vue",
+                    "outPath": "/frontend/src/views"
+                },
+                {
+                    "enabled": true,
+                    "moduleSplit": true,
+                    "templateName": "frontend/vue_schema.njk",
+                    "needPrefix": false,
+                    "outFileType": "schema.ts",
+                    "outPath": "/frontend/src/views"
+                },
+                {
+                    "enabled": true,
+                    "moduleSplit": true,
+                    "templateName": "frontend/vue_schema_json.njk",
+                    "needPrefix": false,
+                    "outFileType": "schema.json",
+                    "outPath": "/frontend/src/views"
+                },
+                {
+                    "enabled": true,
+                    "moduleSplit": true,
+                    "templateName": "frontend/vue_nav.njk",
+                    "needPrefix": false,
+                    "outFileType": "nav.vue",
+                    "outPath": "/frontend/src/views"
+                },
+                {
+                    "enabled": true,
+                    "moduleSplit": true,
+                    "templateName": "frontend/vue_router.njk",
+                    "needPrefix": false,
+                    "outFileType": "router.ts",
+                    "outPath": "/frontend/src/views"
+                },
+                {
+                    "enabled": true,
+                    "moduleSplit": true,
+                    "templateName": "frontend/vue_mock.njk",
+                    "needPrefix": false,
+                    "outFileType": "mock.ts",
+                    "outPath": "/frontend/src/views"
+                },
+                {
+                    "enabled": true,
+                    "moduleSplit": true,
+                    "templateName": "frontend/vue_locale.njk",
+                    "needPrefix": true,
+                    "outFileType": ".zh-CN.ts",
+                    "outPath": "/frontend/src/views"
+                },
+                {
+                    "enabled": true,
+                    "moduleSplit": true,
+                    "templateName": "frontend/vue_locale.njk",
+                    "needPrefix": true,
+                    "outFileType": ".en-US.ts",
+                    "outPath": "/frontend/src/views"
+                },
+                {
+                    "enabled": true,
+                    "moduleSplit": true,
+                    "templateName": "frontend/vue_api.njk",
+                    "needPrefix": false,
+                    "outFileType": "api.ts",
+                    "outPath": "/frontend/src/views"
+                }
+            ],
+
+            "customAttr": {
+                "entityPackageName": "com.example.demo.entity",
+                "mapperPackageName": "com.example.demo.mapper",
+                "servicePackageName": "com.example.demo.service",
+                "serviceImplPackageName": "com.example.demo.service.impl",
+                "controllerPackageName": "com.example.demo.controller"
+            },
+            "customTypeInterpreterConfig": {
+                "int": {
+                    "result": "Integer"
+                },
+                "tinyint": {
+                    "result": "Integer"
+                },
+                "smallint": {
+                    "result": "Integer"
+                },
+                "varchar": {
+                    "result": "String"
+                },
+                "datetime": {
+                    "result": "Date",
+                    "importTypeName": "java.util.Date"
+                },
+                "timestamp": {
+                    "result": "Date",
+                    "importTypeName": "java.util.Date"
+                },
+                "date": {
+                    "result": "Date",
+                    "importTypeName": "java.util.Date"
+                },
+                "time": {
+                    "result": "Date",
+                    "importTypeName": "java.util.Date"
+                },
+                "decimal": {
+                    "result": "BigDecimal",
+                    "importTypeName": "java.math.BigDecimal"
+                },
+                "bit": {
+                    "result": "Boolean"
+                },
+                "bigint": {
+                    "result": "Long"
+                },
+                "default": {
+                    "result": "String"
+                }
+            }
+        }
+    ],
+    "staticTemplateList": [
+        {
+            "groupName": "frontend_store",
+            "defaultOutPath": "/frontend/src/store",
+            "moduleSplit": false,
+            "templateList": [
+                {
+                    "enabled": true,
+                    "moduleSplit": true,
+                    "templateName": "frontend/vue_store.njk",
+                    "outFileType": ".store.ts",
+                    "outPath": "/frontend/src/store"
+                }
+            ]
+        }
+    ],
+    "baseModelProperties": [
+        "id",
+        "dr",
+        "dataVersion",
+        "createTime",
+        "updateTime"
+    ],
+    "customRepoList": [],
+    "swaggerUrls": [
+        "https://petstore.swagger.io/v2/swagger.json",
+        "http://localhost:8080/v2/api-docs"
+    ],
+    "swaggerConvertType": "js",
+    "swaggerSavePath": "./frontend/src/views/demo/api",
+    "apiTsRequester": {
+        "enabled": false,
+        "hasUrlResolveMethod": false,
+        "apiRequesterName": "request",
+        "apiImportSnippets": "import request from '@/utils/request';\n"
+    },
+    "apiJsRequester": {
+        "enabled": false,
+        "isApiMethodSame": false,
+        "isPostForce": false,
+        "apiRequesterName": "request",
+        "apiRequesterGetName": "getObj",
+        "apiRequesterPostName": "postObj",
+        "apiImportSnippets": "import { getObj, postObj } from '@/utils/request';\nconst PREFIX_NAME = '/v2/api'\n"
+    },
+    "codeSnippetsUrl": "",
+    "formGeneratorUrl": "https://ui-javascript.github.io/form-create-designer/"
+}

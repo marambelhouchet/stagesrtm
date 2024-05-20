@@ -1,0 +1,12 @@
+import axios from 'axios';
+import qs from 'query-string';
+
+export default function page{{className}}(params: any) {
+  return axios.get<any>('/api/{{className | lowerCaseFristOne}}/page{{className}}', {
+    params,
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj);
+    },
+  });
+}
+

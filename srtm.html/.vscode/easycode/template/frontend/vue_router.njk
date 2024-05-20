@@ -1,0 +1,23 @@
+export default {
+  path: '{{className}}',
+  name: '{{className}}Nav',
+  component: () => import('@/views/{{className}}/nav.vue'),
+  meta: {
+    locale: 'menu.{{className | lowerCaseFristOne }}Nav',
+    requiresAuth: true,
+    icon: 'icon-list',
+    order: 99,
+  },
+  children: [
+    {
+      path: 'index',
+      name: '{{className }}',
+      component: () => import('@/views/{{className}}/index.vue'),
+      meta: {
+        locale: 'menu.{{className | lowerCaseFristOne }}',
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
+  ]  
+};

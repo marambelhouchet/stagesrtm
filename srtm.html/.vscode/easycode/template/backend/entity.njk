@@ -1,0 +1,80 @@
+package {{ customAttr.entityPackageName }};
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
+import javax.persistence.*;
+import javax.persistence.Table;
+import javax.persistence.Column;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SQLDelete;
+
+import xyz.erupt.annotation.Erupt;
+import xyz.erupt.annotation.EruptField;
+import xyz.erupt.annotation.sub_erupt.Power;
+import xyz.erupt.annotation.sub_field.Edit;
+import xyz.erupt.annotation.sub_field.EditType;
+import xyz.erupt.annotation.sub_field.View;
+import xyz.erupt.annotation.sub_field.sub_edit.DateType;
+import xyz.erupt.annotation.sub_field.sub_edit.Search;
+import xyz.erupt.annotation.sub_erupt.Filter;
+
+
+{% for import in importArray %}
+import {{ import }};
+{% endfor %}
+
+
+@Entity
+@Table(name="{{tableName}}")
+@Erupt(name = "{{className}}"
+	, power = @Power(export = true, importable = true)
+	{% if primaryKey != "id"  %}
+    , primaryKeyCol="{{primaryKey}}"
+	{% endif %}
+    {% if hasLogicDel == true %} 
+    , filter = @Filter("{{logicDelColName}} = 0")
+    {% endif %}
+)
+{% if hasLogicDel == true %}
+@SQLDelete(sql="update {{tableName}} set {{logicDelColName}} = 1 where {{primaryKey}} = ?")
+{% endif %}
+@DynamicUpdate
+@DynamicInsert
+@Getter
+@Setter
+// @Accessors(chain = true)
+public class {{className}} implements java.io.Serializable {
+    
+    {% for property in properties %}
+        {% if property.columnName == 'id' %}
+            {% if property.isAutoIncrement==true %}
+    @Id
+    @GeneratedValue(generator = "generator")
+    @GenericGenerator(name = "generator", strategy = "native")
+            {% else %}
+    @AssignID
+            {% endif %}
+        {% endif %}    
+        {% if property.columnName != logicDelColName %}
+    @EruptField(
+        views = @View(title = "{{ property.comment if property.comment else property.columnName }}"),
+        edit = @Edit(title = "{{ property.comment if property.comment else property.columnName }}"
+                // , notNull = true
+                {% if property.columnName != 'id' %} 
+                , search = @Search(vague = true) 
+                {% endif %}
+        )
+    )
+        {% endif %}
+    private {{ property.propertyType }} {{ property.propertyName }};
+    
+    {% endfor %}
+
+}

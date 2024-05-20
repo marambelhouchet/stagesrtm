@@ -1,0 +1,64 @@
+[
+{% for property in properties %}
+  {
+    {% if property.dataType == "bit" %}
+        {% if property.columnName.indexOf('is') == 0 %}
+    "type": "switch",
+        {% else %}
+    "type": "radio",
+    "options": [
+      {
+        "value": "1",
+        "label": "选项1"
+      },
+      {
+        "value": "2",
+        "label": "选项2"
+      }
+    ],
+        {% endif %}
+    {% elif property.dataType == "tinyint" %}
+    "type": "checkbox",
+    "options": [
+      {
+        "value": "1",
+        "label": "选项1"
+      },
+      {
+        "value": "2",
+        "label": "选项2"
+      }
+    ],
+    {% elif property.dataType == "smallint" %}
+    "type": "select",
+    "options": [
+      {
+        "value": "1",
+        "label": "选项1"
+      },
+      {
+        "value": "2",
+        "label": "选项2"
+      }
+    ],
+    {% elif property.dataType == "datetime" or property.dataType == "date" or property.dataType == "timestamp" %}
+    "type": "datePicker",
+    {% elif property.dataType == "time" %}
+    "type": "timePicker",
+    {% elif property.dataType == "decimal" %}
+    "type": "input",
+    {% elif property.dataType == "varchar" %}
+    "type": "input",
+    {% elif property.dataType == "int" %}
+    "type": "input",
+    "props": {
+      "type": "number"
+    },
+    {% else %}
+    "type": "input",
+    {% endif %}
+    "field": "{{ property.columnName }}",
+    "title": "{% if property.comment %}{{property.comment  | extractField }}{% else %}{{property.propertyName}}{% endif %}"
+  }{% if loop.last == false %},{% endif %}
+{% endfor %}
+]

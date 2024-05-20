@@ -1,0 +1,19 @@
+cols
+===
+```sql
+{% for property in properties %}
+{{ property.columnName }}{% if loop.last == false %},{% endif %}
+{% endfor %}
+
+```
+
+page{{className}}
+===
+```sql
+select
+-- @pageTag(){
+   #{use("cols")}
+-- @}
+from {{ tableName }}
+```
+

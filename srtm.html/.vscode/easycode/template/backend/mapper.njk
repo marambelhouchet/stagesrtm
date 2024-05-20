@@ -1,0 +1,15 @@
+package {{ customAttr.mapperPackageName }};
+
+import java.util.List;
+
+import org.beetl.sql.mapper.BaseMapper;
+import org.beetl.sql.core.page.PageRequest;
+import org.beetl.sql.core.page.PageResult;
+import org.beetl.sql.mapper.annotation.Template;
+import {{customAttr.entityPackageName}}.{{className}};
+
+public interface {{className}}Mapper extends BaseMapper<{{className}}> {
+
+    PageResult<{{className}}> page{{className}}(PageRequest pageRequest);
+
+}
